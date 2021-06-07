@@ -32,8 +32,6 @@ $("#searchBtn").click(function (event) {
   } else {
     localStorage.setItem("city-search-input", citySearchInputEl.value);
     getCity();
-
-    //getUvIndex();
   }
   console.log(citySearchInputEl.value);
 });
@@ -51,12 +49,6 @@ function getCity(searchedCity) {
       .json()
       .then(function (data) {
         console.log(response, data);
-        //pulls the data from the API
-        /*var cityArr = {};
-        console.log(cityArr);
-        cityArr.city = data.name;
-        cityHistory.push(cityArr);
-        saveCity("cities", JSON.stringify(cityHistory));*/
 
         //let uvApi = `https://api.openweathermap.org/data/2.5/uvi?lat=${cityArr.cityUVIndex.lat}&lon=${cityObj.cityUVIndex.lon}&APPID=${apiKey}&units=imperial`;
         $("#tempEl").text("Temperature: " + Math.floor(data.main.temp));
@@ -99,15 +91,16 @@ function getCity(searchedCity) {
       })
       .then(function fiveDay(data) {
         for (var i = 1; i < 6; i++) {
-          var temp = data.daily[i].temp.day;
-          var humidity = data.daily[i].humidity;
-          var wind = data.daily[i].wind_speed;
-          var uvIndex = data.daily[i].uvi;
-          var weatherIcon =
-            "http://openweathermap.org/img/wn/" +
-            data.daily[i].weather[0].icon +
-            ".png";
-          //createFiveDay();
+          var cityObj = {
+            temp: data.daily[i].temp.day,
+            humidity: data.daily[i].humidity,
+            wind: data.daily[i].wind_speed,
+            uvIndex: data.daily[i].uvi,
+            weatherIcon:
+              "http://openweathermap.org/img/wn/" +
+              data.daily[i].weather[0].icon +
+              ".png",
+          };
         }
       });
   });
